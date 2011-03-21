@@ -42,8 +42,9 @@
 	<action-group>
 		<copy>
 			<file from="root/adm/mods/addon_gallery_block_version.php" to="adm/mods/addon_gallery_block_version.php" />
+			<file from="root/includes/acp/*.*" to="includes/acp/*.*" />
 			<file from="root/install/*.*" to="install/*.*" />
-			<file from="root/styles/prosilver/template/portal/block/gallery_body.html" to="styles/prosilver/template/portal/block/gallery_body.html" />
+			<file from="root/portal/block/gallery.php" to="portal/block/gallery.php" />
 		</copy>
 
 		<diy-instructions lang="de"><![CDATA[Rufe install/ auf und führe den Installer aus
