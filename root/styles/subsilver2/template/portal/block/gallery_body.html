@@ -1,0 +1,30 @@
+<!-- BEGIN small_imageblock -->
+{$LR_BLOCK_H_L}<!-- IF $S_BLOCK_ICON --><img src="{T_THEME_PATH}/images/portal/portal_gallery.png" width="16" height="16" alt=""/>&nbsp;<!-- ENDIF --><!-- IF small_imageblock.U_SMALL_BLOCK --><a href="{small_imageblock.U_SMALL_BLOCK}">{small_imageblock.SMALL_BLOCK_NAME}</a><!-- ELSE -->{small_imageblock.SMALL_BLOCK_NAME}<!-- ENDIF -->{$LR_BLOCK_H_R}
+<table class="tablebg" cellspacing="1" width="100%">
+	<tr class="row1">
+		<td>
+			<div align="center">
+				<!-- BEGIN small_imagerow -->
+					<!-- BEGIN small_image -->
+						{small_imageblock.small_imagerow.small_image.UC_THUMBNAIL}<br />
+						<!-- IF small_imageblock.small_imagerow.small_image.S_UNAPPROVED --><div style="font-weight: bold; color: red">{L_QUEUE_STATUS_0}</div><!-- ENDIF --><!-- IF small_imageblock.small_imagerow.small_image.S_LOCKED --><div style="font-weight: bold; color: red">{L_QUEUE_STATUS_2}</div><!-- ENDIF --><!-- IF small_imageblock.small_imagerow.small_image.S_REPORTED --><div style="font-weight: bold; color: red">{L_IMAGE_REPORTED}</div><!-- ENDIF -->
+							<div align="left">
+								<span class="gensmall">
+									<!-- IF small_imageblock.small_imagerow.small_image.UC_IMAGE_NAME -->{L_IMAGE_NAME}: {small_imageblock.small_imagerow.small_image.UC_IMAGE_NAME}<br /><!-- ENDIF -->
+									<!-- IF small_imageblock.small_imagerow.small_image.U_ALBUM -->{L_ALBUM_NAME}: <a href="{small_imageblock.small_imagerow.small_image.U_ALBUM}" style="font-weight: bold;">{small_imageblock.small_imagerow.small_image.ALBUM_NAME}</a><br /><!-- ENDIF -->
+									<!-- IF small_imageblock.small_imagerow.small_image.POSTER -->{L_UPLOADED_BY_USER}: {small_imageblock.small_imagerow.small_image.POSTER}<br /><!-- ENDIF -->
+									<!-- IF small_imageblock.small_imagerow.small_image.TIME -->{L_UPLOADED_ON_DATE}: {small_imageblock.small_imagerow.small_image.TIME}<br /><!-- ENDIF -->
+									<!-- IF small_imageblock.small_imagerow.small_image.VIEW > -1 -->{L_VIEWS}: {small_imageblock.small_imagerow.small_image.VIEW}<br /><!-- ENDIF -->
+									<!-- IF small_imageblock.small_imagerow.small_image.S_RATINGS -->{L_RATING}: <a href="{small_imageblock.small_imagerow.small_image.U_RATINGS}">{small_imageblock.small_imagerow.small_image.S_RATINGS}</a><br /><!-- ENDIF -->
+									<!-- IF small_imageblock.small_imagerow.small_image.S_COMMENTS -->{small_imageblock.small_imagerow.small_image.L_COMMENTS}: <a href="{small_imageblock.small_imagerow.small_image.U_COMMENTS}">{small_imageblock.small_imagerow.small_image.S_COMMENTS}</a><br /><!-- ENDIF -->
+								</span>
+							</div>
+						<br />
+					<!-- END small_image -->
+				<!-- END small_imagerow -->
+			</div>
+		</td>
+	</tr>
+</table>
+{$LR_BLOCK_F_L}{$LR_BLOCK_F_R}
+<!-- END small_imageblock -->
