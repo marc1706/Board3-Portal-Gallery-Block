@@ -269,9 +269,9 @@ if ($portal_config['portal_pg_index_mode'] != '!all')
 		</open>
 		<open src="portal/block/additional_blocks.php">
 			<edit>
-				<find><![CDATA[if (!defined('IN_PORTAL'))
+				<find><![CDATA[if (!defined('IN_PHPBB') || !defined('IN_PORTAL'))
 {
-	exit;
+   exit;
 }]]></find>
 				<action type="after-add"><![CDATA[include($phpbb_root_path . 'portal/block/gallery.'.$phpEx);]]></action>
 			</edit>
