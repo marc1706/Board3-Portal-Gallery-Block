@@ -24,7 +24,7 @@ class acp_portal_gallery_info
 		return array(
 			'filename'	=> 'acp_portal_gallery',
 			'title'		=> 'ACP_PORTAL_GB_INFO',
-			'version'	=> '1.2.4',
+			'version'	=> '1.4.2',
 			'modes'		=> array(
 				'gallery'		=> array('title' => 'ACP_PORTAL_GALLERY_INFO', 'auth' => 'acl_a_portal_manage', 'cat' => array('ACP_PORTAL_INFO')),
 			),

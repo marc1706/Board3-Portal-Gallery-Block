@@ -18,9 +18,9 @@
 define('IN_PHPBB', true);
 define('IN_INSTALL', true);
 
-define('NEWEST_GB_VERSION', '1.4.1');
-define('PG_VERSION', '1.0.0');
-define('B3P_VERSION', '1.0.4');
+define('NEWEST_GB_VERSION', '1.4.2');
+define('PG_VERSION', '1.0.5');
+define('B3P_VERSION', '1.0.6');
 
 
 $phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : './../';

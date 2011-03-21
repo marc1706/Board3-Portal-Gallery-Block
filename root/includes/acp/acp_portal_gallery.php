@@ -34,9 +34,19 @@ class acp_portal_gallery
 		global $config, $phpbb_root_path, $phpbb_admin_path, $phpEx;
 
 		$gallery_root_path = GALLERY_ROOT_PATH;
-		include($phpbb_root_path . $gallery_root_path . 'includes/constants.' . $phpEx);
-		include($phpbb_root_path . $gallery_root_path . 'includes/functions.' . $phpEx);
-		include($phpbb_root_path . 'portal/includes/functions.' . $phpEx);
+		
+		if(!defined('ALBUM_CAT'))
+		{
+			include($phpbb_root_path . $gallery_root_path . 'includes/constants.' . $phpEx);
+		}
+		if(!function_exists('load_gallery_config'))
+		{
+			include($phpbb_root_path . $gallery_root_path . 'includes/functions.' . $phpEx);
+		}
+		if(!function_exists('obtain_portal_config'))
+		{
+			include($phpbb_root_path . 'portal/includes/functions.' . $phpEx);
+		}
 
 		$gallery_config = load_gallery_config();
 		$portal_config = obtain_portal_config();
@@ -221,7 +231,7 @@ class acp_portal_gallery
 		}
 
 		// Cheating is an evil-thing, but most times it's successful, that's why it is used.
-		return "<input type=\"hidden\" name=\"config[$key]\" value=\"$value\" /><select name=\"" . $key . "[]\" multiple=\"multiple\" id=\"$key\">$rrc_mode_options</select>";
+		return '<input type="hidden" name="config[' . $key . ']" value="' . $value . '" /><select name="' . $key . '[]" multiple="multiple" id="' . $key . '">' . $rrc_mode_options . '</select>';
 	}
 
 	/**
@@ -237,7 +247,7 @@ class acp_portal_gallery
 
 		$rrc_display_options = '';
 
-		$rrc_display_options .= "<option value='" . RRC_DISPLAY_NONE . "'>" . $user->lang['RRC_DISPLAY_NONE'] . '</option>';
+		$rrc_display_options .= '<option value="' . RRC_DISPLAY_NONE . '">' . $user->lang['RRC_DISPLAY_NONE'] . '</option>';
 		$rrc_display_options .= '<option' . (($value & RRC_DISPLAY_ALBUMNAME) ? ' selected="selected"' : '') . " value='" . RRC_DISPLAY_ALBUMNAME . "'>" . $user->lang['RRC_DISPLAY_ALBUMNAME'] . '</option>';
 		$rrc_display_options .= '<option' . (($value & RRC_DISPLAY_COMMENTS) ? ' selected="selected"' : '') . " value='" . RRC_DISPLAY_COMMENTS . "'>" . $user->lang['RRC_DISPLAY_COMMENTS'] . '</option>';
 		$rrc_display_options .= '<option' . (($value & RRC_DISPLAY_IMAGENAME) ? ' selected="selected"' : '') . " value='" . RRC_DISPLAY_IMAGENAME . "'>" . $user->lang['RRC_DISPLAY_IMAGENAME'] . '</option>';
@@ -247,7 +257,7 @@ class acp_portal_gallery
 		$rrc_display_options .= '<option' . (($value & RRC_DISPLAY_RATINGS) ? ' selected="selected"' : '') . " value='" . RRC_DISPLAY_RATINGS . "'>" . $user->lang['RRC_DISPLAY_RATINGS'] . '</option>';
 
 		// Cheating is an evil-thing, but most times it's successful, that's why it is used.
-		return "<input type=\"hidden\" name=\"config[$key]\" value=\"$value\" /><select name=\"" . $key . "[]\" multiple=\"multiple\" id=\"$key\">$rrc_display_options</select>";
+		return '<input type="hidden" name="config[' . $key . ']" value="' . $value . '" /><select name="' . $key . '[]" multiple="multiple" id="' . $key . '">' . $rrc_display_options . '</select>';
 	}
 }
 

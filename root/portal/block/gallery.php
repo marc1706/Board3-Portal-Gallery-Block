@@ -17,6 +17,8 @@ if (!defined('IN_PHPBB') || (!defined('IN_PORTAL')))
 	exit;
 }
 
+include($phpbb_root_path . 'portal/includes/functions_gallery.' . $phpEx);
+
 /**
 * Recent images & comments and random images
 *
@@ -25,7 +27,12 @@ if (!defined('IN_PHPBB') || (!defined('IN_PORTAL')))
 * @function: recent_gallery_images
 */
 $gallery_root_path = GALLERY_ROOT_PATH;
-include($phpbb_root_path . $gallery_root_path . 'includes/functions_recent.' . $phpEx);
+
+if(!function_exists('recent_gallery_images'))
+{
+	include($phpbb_root_path . $gallery_root_path . 'includes/functions_recent.' . $phpEx);
+}
+
 $ints = array(
 	'rows'		=> $portal_config['portal_pg_center_rows'],
 	'columns'	=> $portal_config['portal_pg_center_columns'],
@@ -33,7 +40,7 @@ $ints = array(
 	'contests'	=> $portal_config['portal_pg_center_contests'],
 );
 /**
-* int		array	including all relevent numbers for rows, columns and stuff like that,
+* ints		array	including all relevent numbers for rows, columns and stuff like that,
 * display	int		sum of the options which should be displayed, see gallery/includes/constants.php "// Display-options for RRC-Feature" for values
 * modes		int		sum of the modes which should be displayed, see gallery/includes/constants.php "// Mode-options for RRC-Feature" for values
 * collapse	bool	collapse comments
@@ -46,7 +53,6 @@ if ($portal_config['portal_pg_center_mode'] != '!all')
 	recent_gallery_images($ints, $portal_config['portal_pg_center_display'], $portal_config['portal_pg_center_mode'], $portal_config['portal_pg_center_comments'], $portal_config['portal_pg_center_pgalleries']);
 }
 
-include($phpbb_root_path . 'portal/includes/functions_gallery.' . $phpEx);
 $ints = array(
 	'small_rows'	=> $portal_config['portal_pg_small_rows'],
 	'small_columns'	=> 1,

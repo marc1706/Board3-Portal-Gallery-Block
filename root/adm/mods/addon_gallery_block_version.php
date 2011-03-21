@@ -26,11 +26,11 @@ class addon_gallery_block_version
 		$portal_config = obtain_portal_config();
 
 		return array(
-			'author'	=> 'Christian_N', 
+			'author'	=> 'Christian_N, Marc Aleander', 
 			'title'		=> 'board3 Portal Add-ON: Gallery Block',
 			'tag'		=> 'addon_gallery_block',
 			'version'	=> $portal_config['portal_gallery_version'],
-			'file'		=> array('www.phpbb-projekt.de', 'updatecheck', 'mymods.xml'),
+			'file'		=> array('www.m-a-styles.de', 'versioncheck', 'gallery_block.xml'),
 		);
 	}
 }
