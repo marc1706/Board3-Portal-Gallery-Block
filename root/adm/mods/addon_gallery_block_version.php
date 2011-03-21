@@ -30,7 +30,7 @@ class addon_gallery_block_version
 			'title'		=> 'board3 Portal Add-ON: Gallery Block',
 			'tag'		=> 'addon_gallery_block',
 			'version'	=> $portal_config['portal_gallery_version'],
-			'file'		=> array('www.m-a-styles.de', 'versioncheck', 'gallery_block.xml'),
+			'file'		=> array('www.m-a-styles.de', 'updatecheck', 'gallery_block.xml'),
 		);
 	}
 }

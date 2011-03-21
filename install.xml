@@ -51,6 +51,7 @@
 				<rev-version>1.4.2</rev-version>
 				<changelog lang="en-gb">
 					<change><![CDATA[Fixed bugs where files were included more than once]]></change>
+					<change><![CDATA[Updated MODx to 1.2.5]]></change>
 				</changelog>
 			</entry>
 			<entry>
@@ -294,7 +295,7 @@ if ($portal_config['portal_pg_index_mode'] != '!all')
 				<action type="after-add"><![CDATA[<!-- INCLUDE portal/block/gallery_body.html -->]]></action>
 			</edit>
 		</open>
-
+		<php-installer>install/index.php</php-installer>
 		<diy-instructions lang="de"><![CDATA[Rufe install/ auf und führe den Installer aus
 
 Leere den Cache im "Administrations-Bereich" (ACP) > "Allgemein" > "Den Cache leeren"
