@@ -26,7 +26,7 @@
 			</author>
 		</author-group>
 
-		<mod-version>1.4.2</mod-version>
+		<mod-version>2.0.0b1</mod-version>
 
 		<installation>
 			<level>easy</level>
@@ -40,27 +40,8 @@
 	</header>
 	<action-group>
 		<copy>
-			<file from="root/styles/subsilver2/template/portal/block/*.*" to="styles/subsilver2/template/portal/block/*.*" />
+			<file from="root/styles/subsilver2/template/portal/modules/*.*" to="styles/subsilver2/template/portal/modules/*.*" />
 			<file from="root/styles/subsilver2/theme/images/portal/portal_gallery.png" to="styles/subsilver2/theme/images/portal/portal_gallery.png" />
 		</copy>
-
-		<open src="styles/subsilver2/template/index_body.html">
-			<edit>
-				<find><![CDATA[<!-- INCLUDE forumlist_body.html -->]]></find>
-				<action type="after-add"><![CDATA[<!-- INCLUDE gallery/recent_body.html -->]]></action>
-			</edit>
-		</open>
-		<open src="styles/subsilver2/template/portal/block/additional_blocks_center.html">
-			<edit>
-				<find><![CDATA[<!-- additional_blocks //-->]]></find>
-				<action type="after-add"><![CDATA[<!-- INCLUDE gallery/recent_body.html -->]]></action>
-			</edit>
-		</open>
-		<open src="styles/subsilver2/template/portal/block/additional_blocks_right.html">
-			<edit>
-				<find><![CDATA[<!-- additional_blocks //-->]]></find>
-				<action type="after-add"><![CDATA[<!-- INCLUDE portal/block/gallery_body.html -->]]></action>
-			</edit>
-		</open>
 	</action-group>
 </mod>

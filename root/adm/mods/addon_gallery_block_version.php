@@ -18,18 +18,13 @@ class addon_gallery_block_version
 {
 	function version()
 	{
-		global $portal_config, $phpbb_root_path, $phpEx;
-		if (!function_exists('obtain_portal_config'))
-		{
-			include($phpbb_root_path . 'portal/includes/functions.' . $phpEx);
-		}
-		$portal_config = obtain_portal_config();
+		global $config, $phpbb_root_path, $phpEx;
 
 		return array(
 			'author'	=> 'Christian_N, Marc Aleander', 
 			'title'		=> 'board3 Portal Add-ON: Gallery Block',
 			'tag'		=> 'addon_gallery_block',
-			'version'	=> $portal_config['portal_gallery_version'],
+			'version'	=> $config['portal_gallery_version'],
 			'file'		=> array('www.m-a-styles.de', 'updatecheck', 'gallery_block.xml'),
 		);
 	}

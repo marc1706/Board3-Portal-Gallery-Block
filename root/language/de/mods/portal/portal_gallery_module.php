@@ -33,6 +33,7 @@ $lang = array_merge($lang, array(
 	// MAIN
 	'RANDOM_IMAGE'	=> 'Zufälliges Bild',
 	'RECENT_IMAGE'	=> 'Neueste Bild',
+	'PORTAL_GALLERY'=> 'Gallery',
 	
 	// ACP
 	'ACP_PORTAL_GALLERY_INFO'				=> 'Galerie',

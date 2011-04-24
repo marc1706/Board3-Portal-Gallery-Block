@@ -55,7 +55,7 @@ class portal_gallery_module
 
 	function get_template_center($module_id)
 	{
-		global $config, $template;
+		global $config, $template, $phpbb_root_path, $phpEx;
 		
 		$gallery_root_path = GALLERY_ROOT_PATH;
 
@@ -81,7 +81,7 @@ class portal_gallery_module
 
 	function get_template_side($module_id)
 	{
-		global $config, $template;
+		global $config, $template, $phpbb_root_path, $phpEx;
 
 		$gallery_root_path = GALLERY_ROOT_PATH;
 
@@ -94,24 +94,78 @@ class portal_gallery_module
 			'small_rows'	=> $config['board3_gallery_small_rows_' . $module_id],
 			'small_columns'	=> 1,
 		);
+
 		if ($config['board3_gallery_small_mode_' . $module_id] != '!all')
 		{
-			$this->small_gallery_images($ints, $config['board3_gallery_small_display_' . $module_id], $config['board3_gallery_small_mode_' . $module_id], $config['board3_gallery_small_pgalleries_' . $module_id]);
+			$this->small_gallery_images($ints, $config['board3_gallery_small_display_' . $module_id], $config['board3_gallery_small_mode_' . $module_id], true, '', 0, $module_id);
 		}
 
-		return 'modulename_side.html';
+		return 'gallery_side.html';
 	}
 
 	function get_template_acp($module_id)
 	{
-		return array(
-			'title'	=> 'ACP_CONFIG_MODULENAME',
-			'vars'	=> array(
-				'legend1'								=> 'ACP_MODULENAME_CONFIGLEGEND',
-				'board3_configname_' . $module_id	=> array('lang' => 'MODULENAME_CONFIGNAME',		'validate' => 'string',	'type' => 'text:10:200',	'explain' => false),
-				'board3_configname2_' . $module_id	=> array('lang' => 'MODULENAME_CONFIGNAME2',	'validate' => 'int',	'type' => 'text:3:3',		'explain' => true),
-			),
-		);
+		global $phpbb_root_path, $phpEx, $user, $db;
+		
+		$gallery_root_path = GALLERY_ROOT_PATH;
+		
+		if(!defined('ALBUM_CAT'))
+		{
+			include($phpbb_root_path . $gallery_root_path . 'includes/constants.' . $phpEx);
+		}
+		if(!function_exists('load_gallery_config'))
+		{
+			include($phpbb_root_path . $gallery_root_path . 'includes/functions.' . $phpEx);
+		}
+		$user->add_lang('mods/gallery_acp');
+		$user->add_lang('mods/gallery');
+
+		$portal_modules = obtain_portal_modules();
+		$side_column = false;
+		
+		foreach($portal_modules as $cur_module)
+		{
+			if($cur_module['module_id'] == $module_id)
+			{
+				$cur_column = column_num_string($cur_module['module_column']);
+				
+				if(in_array($cur_column, array('left', 'right')))
+				{
+					$side_column = true;
+				}
+			}
+		}
+		
+		if($side_column)
+		{
+			return array(
+				'title'	=> 'ACP_PORTAL_GALLERY_SETTINGS',
+				'vars'	=> array(
+					'legend1'						=> 'ACP_PORTAL_GALLERY_SETTINGS_RIGHT',
+					'board3_gallery_small_mode_' . $module_id			=> array('lang' => 'RRC_GINDEX_MODE',		'validate' => 'int',		'type' => 'custom',			'explain' => true,	'method' => 'rrc_modes', 'submit' => 'store_rrc'),
+					'board3_gallery_small_rows_' . $module_id			=> array('lang' => 'RRC_GINDEX_ROWS',		'validate' => 'int',		'type' => 'text:3:3',		'explain' => false),
+					'board3_gallery_small_display_' . $module_id		=> array('lang' => 'RRC_DISPLAY_OPTIONS',	'validate' => '',		'type' => 'custom',			'explain' => false,	'method' => 'rrc_display', 'submit' => 'store_rrc'),
+					'board3_gallery_small_pgalleries_' . $module_id		=> array('lang' => 'RRC_GINDEX_PGALLERIES',	'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => false),
+				),
+			);
+		}
+		else
+		{
+			return array(
+				'title'	=> 'ACP_PORTAL_GALLERY_SETTINGS',
+				'vars'	=> array(
+					'legend1'						=> 'ACP_PORTAL_GALLERY_SETTINGS_CENTER',
+					'board3_gallery_center_mode_' . $module_id			=> array('lang' => 'RRC_GINDEX_MODE',		'validate' => 'int',	'type' => 'custom',			'explain' => true,	'method' => 'rrc_modes', 'submit' => 'store_rrc'),
+					'board3_gallery_center_rows_' . $module_id			=> array('lang' => 'RRC_GINDEX_ROWS',		'validate' => 'int',	'type' => 'text:7:3',		'explain' => false),
+					'board3_gallery_center_columns_' . $module_id		=> array('lang' => 'RRC_GINDEX_COLUMNS',	'validate' => 'int',	'type' => 'text:7:3',		'explain' => false),
+					'board3_gallery_center_comments_' . $module_id		=> array('lang' => 'RRC_GINDEX_COMMENTS',	'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => false),
+					'board3_gallery_center_crows_' . $module_id		=> array('lang' => 'RRC_GINDEX_CROWS',		'validate' => 'int',	'type' => 'text:7:3',		'explain' => false),
+					'board3_gallery_center_contests_' . $module_id		=> array('lang' => 'RRC_GINDEX_CONTESTS',	'validate' => 'int',	'type' => 'text:7:3',		'explain' => false),
+					'board3_gallery_center_display_' . $module_id		=> array('lang' => 'RRC_DISPLAY_OPTIONS',	'validate' => '',		'type' => 'custom',			'explain' => false,	'method' => 'rrc_display', 'submit' => 'store_rrc'),
+					'board3_gallery_center_pgalleries_' . $module_id	=> array('lang' => 'RRC_GINDEX_PGALLERIES',	'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => false),
+				),
+			);
+		}
 	}
 
 	/**
@@ -123,22 +177,15 @@ class portal_gallery_module
 		set_config('board3_gallery_center_columns_' . $module_id, 3);
 		set_config('board3_gallery_center_crows_' . $module_id, 5);
 		set_config('board3_gallery_center_contests_' . $module_id, 0);
-		set_config('board3_gallery_small_mode_' . $module_id, 1);
-		set_config('board3_gallery_small_rows_' . $module_id, 1);
-		set_config('board3_gallery_small_display_' . $module_id, 127);
-		set_config('board3_gallery_small_pgalleries_' . $module_id, 0);
 		set_config('board3_gallery_center_mode_' . $module_id, 0);
 		set_config('board3_gallery_center_display_' . $module_id, 127);
 		set_config('board3_gallery_center_pgalleries_' . $module_id, 0);
 		set_config('board3_gallery_center_comments_' . $module_id, 1);
-		set_config('board3_gallery_index_mode_' . $module_id, 0);
-		set_config('board3_gallery_index_display_' . $module_id, 127);
-		set_config('board3_gallery_index_rows_' . $module_id, 1);
-		set_config('board3_gallery_index_columns_' . $module_id, 4);
-		set_config('board3_gallery_index_crows_' . $module_id, 5);
-		set_config('board3_gallery_index_contests_' . $module_id, 0);
-		set_config('board3_gallery_index_pgalleries_' . $module_id, 0);
-		set_config('board3_gallery_index_comments_' . $module_id, 1);
+		set_config('board3_gallery_small_mode_' . $module_id, 1);
+		set_config('board3_gallery_small_rows_' . $module_id, 1);
+		set_config('board3_gallery_small_display_' . $module_id, 127);
+		set_config('board3_gallery_small_pgalleries_' . $module_id, 0);
+		set_config('board3_gallery_version', '2.0.0b1');
 		return true;
 	}
 
@@ -180,13 +227,13 @@ class portal_gallery_module
 	* @author: nickvergessen
 	* @function: recent_gallery_images
 	*/
-	function small_gallery_images($ints, $display, $mode, $include_pgalleries = true, $mode_id = '', $id = 0)
+	function small_gallery_images($ints, $display, $mode, $include_pgalleries = true, $mode_id = '', $id = 0, $module_id)
 	{
 		global $auth, $cache, $config, $db, $gallery_config, $portal_config, $template, $user;
 		global $gallery_root_path, $phpbb_root_path, $phpEx;
 
 		$gallery_root_path = (!$gallery_root_path) ? GALLERY_ROOT_PATH : $gallery_root_path;
-		$user->add_lang(array('mods/gallery', 'mods/gallery_mcp', 'mods/info_acp_b3p_gallery'));
+		$user->add_lang(array('mods/gallery', 'mods/gallery_mcp'));
 
 		if (!function_exists('generate_text_for_display'))
 		{
@@ -202,11 +249,7 @@ class portal_gallery_module
 		{
 			include($phpbb_root_path . $gallery_root_path . 'includes/functions_display.' . $phpEx);
 		}
-		$portal_config = obtain_portal_config();
-		if (!function_exists('obtain_portal_config'))
-		{
-			include($phpbb_root_path . 'portal/includes/functions.' . $phpEx);
-		}
+
 		$album_id = $user_id = 0;
 		switch ($mode_id)
 		{
@@ -375,6 +418,66 @@ class portal_gallery_module
 		));
 	}
 
+	
+	/**
+	* Select Config on Board3 Portal
+	*
+	* borrowed from phpBB Gallery (SVN 1150)
+	* @author: nickvergessen
+	* @function: rrc_modes
+	*/
+	function rrc_modes($value, $key, $module_id)
+	{
+		global $user;
+
+		$rrc_mode_options = '';
+
+		$rrc_mode_options .= "<option value='" . RRC_MODE_NONE . "'>" . $user->lang['RRC_MODE_NONE'] . '</option>';
+		$rrc_mode_options .= '<option' . (($value & RRC_MODE_RECENT) ? ' selected="selected"' : '') . " value='" . RRC_MODE_RECENT . "'>" . $user->lang['RRC_MODE_RECENT'] . '</option>';
+		$rrc_mode_options .= '<option' . (($value & RRC_MODE_RANDOM) ? ' selected="selected"' : '') . " value='" . RRC_MODE_RANDOM . "'>" . $user->lang['RRC_MODE_RANDOM'] . '</option>';
+		if ($key != 'board3_gallery_small_mode_' . $module_id)
+		{
+			$rrc_mode_options .= '<option' . (($value & RRC_MODE_COMMENT) ? ' selected="selected"' : '') . " value='" . RRC_MODE_COMMENT . "'>" . $user->lang['RRC_MODE_COMMENTS'] . '</option>';
+		}
+
+		// Cheating is an evil-thing, but most times it's successful, that's why it is used.
+		return '<input type="hidden" name="config[' . $key . ']" value="' . $value . '" /><select name="' . $key . '[]" multiple="multiple" id="' . $key . '">' . $rrc_mode_options . '</select>';
+	}
+
+	/**
+	* Select RRC display options
+	*
+	* borrowed from phpBB Gallery (SVN 1150)
+	* @author: nickvergessen
+	* @function: rrc_display
+	*/
+	function rrc_display($value, $key, $module_id)
+	{
+		global $user;
+
+		$rrc_display_options = '';
+
+		$rrc_display_options .= '<option value="' . RRC_DISPLAY_NONE . '">' . $user->lang['RRC_DISPLAY_NONE'] . '</option>';
+		$rrc_display_options .= '<option' . (($value & RRC_DISPLAY_ALBUMNAME) ? ' selected="selected"' : '') . " value='" . RRC_DISPLAY_ALBUMNAME . "'>" . $user->lang['RRC_DISPLAY_ALBUMNAME'] . '</option>';
+		$rrc_display_options .= '<option' . (($value & RRC_DISPLAY_COMMENTS) ? ' selected="selected"' : '') . " value='" . RRC_DISPLAY_COMMENTS . "'>" . $user->lang['RRC_DISPLAY_COMMENTS'] . '</option>';
+		$rrc_display_options .= '<option' . (($value & RRC_DISPLAY_IMAGENAME) ? ' selected="selected"' : '') . " value='" . RRC_DISPLAY_IMAGENAME . "'>" . $user->lang['RRC_DISPLAY_IMAGENAME'] . '</option>';
+		$rrc_display_options .= '<option' . (($value & RRC_DISPLAY_IMAGETIME) ? ' selected="selected"' : '') . " value='" . RRC_DISPLAY_IMAGETIME . "'>" . $user->lang['RRC_DISPLAY_IMAGETIME'] . '</option>';
+		$rrc_display_options .= '<option' . (($value & RRC_DISPLAY_IMAGEVIEWS) ? ' selected="selected"' : '') . " value='" . RRC_DISPLAY_IMAGEVIEWS . "'>" . $user->lang['RRC_DISPLAY_IMAGEVIEWS'] . '</option>';
+		$rrc_display_options .= '<option' . (($value & RRC_DISPLAY_USERNAME) ? ' selected="selected"' : '') . " value='" . RRC_DISPLAY_USERNAME . "'>" . $user->lang['RRC_DISPLAY_USERNAME'] . '</option>';
+		$rrc_display_options .= '<option' . (($value & RRC_DISPLAY_RATINGS) ? ' selected="selected"' : '') . " value='" . RRC_DISPLAY_RATINGS . "'>" . $user->lang['RRC_DISPLAY_RATINGS'] . '</option>';
+
+		// Cheating is an evil-thing, but most times it's successful, that's why it is used.
+		return '<input type="hidden" name="config[' . $key . ']" value="' . $value . '" /><select name="' . $key . '[]" multiple="multiple" id="' . $key . '">' . $rrc_display_options . '</select>';
+	}
+	
+	function store_rrc($key, $module_id)
+	{
+		global $config;
+
+		// Changing the value, casted by int to not mess up anything
+		$config_value = (int) array_sum(request_var($key, array(0)));
+		set_config($key, $config_value);
+	}
 }
 
 ?>
